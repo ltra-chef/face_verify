@@ -44,14 +44,24 @@ def main():
             distance_metric=args.metric
         )
 
+        is_verified = result["verified"]
+
+
         print("\n--- DeepFace Verification Result ---")
-        print(f"Verified: {result['verified']}")
+        if is_verified:
+                print("✅ The two images are of the same person.")
+        else:
+                print("❌ The two images are NOT of the same person.")
         print(f"Distance: {result['distance']:.4f}")
         print(f"Threshold: {result['threshold']:.4f}")
         print(f"Model: {args.model}")
         print(f"Detector: {args.detector}")
         print(f"Metric: {args.metric}")
         print("-----------------------------------\n")
+ 
+    
+
+  
 
     except Exception as e:
         print(f"[!] Error: {e}")
