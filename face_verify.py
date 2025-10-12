@@ -9,6 +9,7 @@ os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import argparse
 from deepface import DeepFace
 import pandas as pd
+import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 
@@ -29,8 +30,11 @@ def verify_faces(img1, img2, model, detector, metric):
     print("\n--- DeepFace Verification Result ---")
     if is_verified:
         print("✅ The two images are of the same person.")
+        print("Verified: True")        
     else:
         print("❌ The two images are NOT of the same person.")
+        print("Verified: False")
+
     print(f"Distance: {result['distance']:.4f}")
     print(f"Threshold: {result['threshold']:.4f}")
     print(f"Model: {model}")
@@ -70,7 +74,7 @@ def find_faces(img, db_path, model, detector, metric, out_path="output.jpg"):
     for df in dfs:
         match_detail = {}
         row = df.iloc[0]
-        print(row)
+        #print(row) # todo print this if verbose/debug enabled
         identity = row.identity
         person_name = os.path.basename(os.path.dirname(identity))
         match_detail["person_name"] = person_name
@@ -116,26 +120,12 @@ def find_faces(img, db_path, model, detector, metric, out_path="output.jpg"):
     except Exception:
         pass
 
-def find_faces_old(img, db_path, model, detector, metric):
-    """Find similar faces in a database"""
-    dfs = DeepFace.find(
-        img_path=img,
-        db_path=db_path,
-        model_name=model,
-        detector_backend=detector,
-        distance_metric=metric
-    )
+def build_database_cache(db_path, model):
+    print("Building the database, this may take a while...")
+    # make image empty, and dont force a face detection
+    DeepFace.find(img_path=np.ndarray(shape=[0,0,0]), enforce_detection=False,db_path=db_path, model_name=model)   
+    print("...Done rebuilding the database!")
 
-    print("\n--- DeepFace Find Results ---")
-    if len(dfs) == 0 or dfs[0].empty:
-        print("No matches found in database.")
-        return
-    for df in dfs:
-        row = df.iloc[0]
-        matched_identity = row.identity
-        confidence = row.confidence
-        distance = row.distance
-        print(f"Identity: {matched_identity} \t\tconfidence:{confidence:.2f} \tdistance:{distance:.2f}")
 
 def main():
     parser = argparse.ArgumentParser(
@@ -155,9 +145,11 @@ def main():
     find_parser.add_argument("db_path", help="Path to database folder containing face images")
     find_parser.add_argument("--output", type=str, default="out.jpg", help="Path write output file to")
 
+    build_parser = subparsers.add_parser("build", help="Rebuild the database cache")
+    build_parser.add_argument("db_path", help="Path to database folder containing face images")
 
     # Shared arguments
-    for sub in [verify_parser, find_parser]:
+    for sub in [verify_parser, find_parser, build_parser]:
         sub.add_argument(
             "--model", 
             type=str, 
@@ -188,6 +180,8 @@ def main():
     elif args.command == "find":
         find_faces(args.img, args.db_path, args.model, args.detector, args.metric,args.output)
 
+    elif args.command == "build":
+        build_database_cache(args.db_path, args.model)
 
 if __name__ == "__main__":
     main()
