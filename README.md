@@ -1,14 +1,9 @@
-Perfect 👌 — here’s the **final, production-ready `README.md`**, now with a professional section on **embedding caching and performance optimization** for large face databases.
-
----
-
-# 🧠 DeepFace CLI – Face Verification & Face Search
+# DeepFace CLI – Face Verification & Face Search
 
 A Python CLI tool built on [DeepFace](https://github.com/serengil/deepface) for:
 
 * ✅ **Face verification** – check if two images are of the same person
 * 🔍 **Face search** – find similar faces in a local image database
-* 🖼️ **Annotated output** – draws bounding boxes and labels on faces automatically
 
 ---
 
@@ -41,18 +36,9 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-#### Example `requirements.txt`
-
-```txt
-deepface
-opencv-python
-matplotlib
-pytest
-```
-
----
 
 ## 🚀 Usage
+# Note on first run a large model file will be downloaded 
 
 ### ✅ Verify Mode (Two-Image Comparison)
 
@@ -62,23 +48,18 @@ Check if two images belong to the same person.
 python face_verify.py verify img1.jpg img2.jpg
 ```
 
-or simply:
-
-```bash
-python face_verify.py img1.jpg img2.jpg
-```
 
 **Example Output:**
 
 ```
 --- DeepFace Verification Result ---
+✅ The two images are of the same person.
 Verified: True
-Distance: 0.2145
-Threshold: 0.40
+Distance: 0.6727
+Threshold: 0.6800
 Model: VGG-Face
 Detector: opencv
 Metric: cosine
------------------------------------
 ```
 
 **Optional arguments:**
@@ -114,10 +95,10 @@ python face_verify.py find query.jpg ./faces_db
  ./faces_db/john_2.jpg         0.214567
  ./faces_db/jane_1.jpg         0.625891
 -----------------------------------
-Annotated image saved to find_output.jpg
+Annotated image saved to out.jpg
 ```
 
-An annotated image (`find_output.jpg`) is generated with:
+An annotated image (`out.jpg`) is generated with:
 
 * Bounding boxes for detected faces
 * Labels showing the top match
@@ -186,14 +167,14 @@ To speed up future searches, DeepFace **automatically caches** these embeddings 
 
 On subsequent runs, it reuses this cache to instantly perform face matching.
 
-### 🧩 To Manually Pre-Build the Cache
+### 🧩 To Pre-Build the Cache
 
-You can force DeepFace to precompute and store embeddings by running:
+You can  precompute and store embeddings by running:
 
-```python
-from deepface import DeepFace
-DeepFace.find(img_path=None, db_path="./faces_db", model_name="ArcFace")
+```bash
+python face_verify.py build ./faces_db
 ```
+Where the faces_db is the path to the database
 
 This command creates the cache file without performing a search, which is useful for preparing large databases.
 
@@ -246,9 +227,11 @@ deepface-cli/
 ├── README.md
 └── tests/
     ├── test_face_verify.py
-    └── images/
-        ├── person1a.jpg
-        ├── person1b.jpg
+    └── database/
+        ├── person1/
+            ├── person1a.jpg
+            ├── person1b.jpg
+        ├── person2/
         └── person2a.jpg
 ```
 

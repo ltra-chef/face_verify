@@ -145,6 +145,7 @@ def main():
     find_parser.add_argument("db_path", help="Path to database folder containing face images")
     find_parser.add_argument("--output", type=str, default="out.jpg", help="Path write output file to")
 
+    # Subcommand: build
     build_parser = subparsers.add_parser("build", help="Rebuild the database cache")
     build_parser.add_argument("db_path", help="Path to database folder containing face images")
 
