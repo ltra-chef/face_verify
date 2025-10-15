@@ -5,8 +5,7 @@ import pytest
 
 # Paths to test images
 BASE_DIR = os.path.dirname(__file__)
-IMG_DIR = os.path.join(BASE_DIR, "tests/database")
-
+IMG_DIR = os.path.join(BASE_DIR, "database")
 PERSON1A = os.path.join(IMG_DIR, "barack_obama/barack1.jpg")
 PERSON1B = os.path.join(IMG_DIR, "barack_obama/barack2.jpg")
 PERSON2A = os.path.join(IMG_DIR, "joe_biden/biden1.jpg")
@@ -17,6 +16,7 @@ SCRIPT = os.path.abspath(os.path.join(BASE_DIR, "..", "face_verify.py"))
 def run_cli(*args):
     """Run the face_verify.py CLI and return output as string"""
     cmd = [sys.executable, SCRIPT] + list(args)
+    #print (" ".join(str(x) for x in cmd))
     result = subprocess.run(cmd, capture_output=True, text=True, check=True)
     return result.stdout
 
@@ -39,3 +39,5 @@ def test_with_different_models(model):
     output = run_cli("verify", PERSON1A, PERSON1B, "--model", model)
     assert "Verified:" in output
     assert f"Model: {model}" in output
+
+
