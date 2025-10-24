@@ -16,3 +16,4 @@ gunicorn>=20.1.0
 tf_keras>=2.20.1
 pytest>=8.4.2
 matplotlib>=3.10.6
+deepface>=0.0.95
