@@ -41,6 +41,7 @@ def verify_faces(img1, img2, model, detector, metric):
     print(f"Detector: {detector}")
     print(f"Metric: {metric}")
     print("-----------------------------------\n")
+    
 
 
 
@@ -183,6 +184,8 @@ def main():
 
     elif args.command == "build":
         build_database_cache(args.db_path, args.model)
+    
+    sys.exit(0)
 
 if __name__ == "__main__":
     main()
