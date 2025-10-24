@@ -218,24 +218,6 @@ tests/test_face_verify.py::test_with_different_models[ArcFace] PASSED     [100%]
 
 ---
 
-## 🧩 Project Structure
-
-```
-deepface-cli/
-├── face_verify.py          # Main CLI tool
-├── requirements.txt
-├── README.md
-└── tests/
-    ├── test_face_verify.py
-    └── database/
-        ├── person1/
-            ├── person1a.jpg
-            ├── person1b.jpg
-        ├── person2/
-        └── person2a.jpg
-```
-
----
 
 ## 💡 Example Workflow
 
