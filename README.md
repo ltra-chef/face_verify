@@ -12,18 +12,18 @@ A Python CLI tool built on [DeepFace](https://github.com/serengil/deepface) for:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<yourusername>/deepface-cli.git
-cd deepface-cli
+git clone https://github.com/ltra-chef/face_verify.git
+cd face_verify
 ```
 
 ### 2. Create and activate a Python virtual environment
 
 ```bash
 # Create venv (Python 3.9+ recommended)
-python3 -m venv venv
+python3 -m venv .
 
 # Activate on macOS/Linux
-source venv/bin/activate
+source bin/activate
 
 # Activate on Windows
 venv\Scripts\activate
